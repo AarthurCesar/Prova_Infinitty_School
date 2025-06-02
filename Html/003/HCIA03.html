@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prova - H&CIA - A03</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #289ce4, #11a1ee, #0404ef );
+
+    background-color: #f4f4f4; 
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding: 20px;
+    background-color: #590bde2b;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    gap: 10px; 
+    
+
+}
+
+form input, section, textarea,option,select{
+    background:rgba(60, 59, 59, 0.449) ;
+    color: rgb(249, 247, 247);
+}
+input::placeholder, textarea::placeholder {
+    background: rgba(65, 65, 65, 0.279);
+    color: white;
+}
+
+ h2,h3{
+    padding: 0;
+    margin: 0;
+    text-align: center;
+ }
+ p{
+    padding: 0;
+    margin: 0;
+}
+
+textarea{
+    width: 100%;
+    height: 10vh;
+    overflow: hidden;
+    resize: none;
+}
+    </style>
+</head>
+<body>
+    <form action="" method="post"> <!-- Método adicionado -->
+        <h2>Formulario de Inscrição</h2>
+        <h3>Infinity School</h3>
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" placeholder="Digite seu nome...">
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu email..." required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha..." required>
+
+        <label for="pais">País:</label>
+        <select name="pais" id="pais" required>
+            <option value="" disabled selected>Selecione um país</option>
+            <option value="brasil">Brasil</option>
+            <option value="portugal">Portugal</option>
+            <option value="estados-unidos">Estados Unidos</option>
+            <option value="canada">Canadá</option>
+            <option value="japao">Japão</option>
+        </select>
+        <p>Qual seu turno se encaixa ?</p>
+
+        <label>
+            <input type="radio" name="turno" value="manha"> Manhã - 7 Horas
+        </label>
+        <label>
+            <input type="radio" name="turno" value="tarde"> Tarde - 13 Horas 
+        </label>
+        <label>
+            <input type="radio" name="turno" value="noite"> Noite - 19 Horas
+        </label>
+        <label for="Msn">Digite uma mensagem:</label>
+        <textarea name="Msn" id="Msn" placeholder="Digite uma mensagem..." required></textarea>
+
+        <button type="submit">Enviar formulário</button>
+        <button type="reset">Limpar</button>
+    </form>
+</body>
+</html>
