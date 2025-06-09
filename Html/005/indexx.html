@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 Caixas !</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;  /* Alinha horizontalmente */
+            align-items: center;      /* Alinha verticalmente */
+            min-height: 100vh;        /* Altura mínima para ocupar toda a tela */
+            gap: 20px;                /* Espaçamento entre as caixas */
+            background-color: #f0f0f0;
+        }
+
+        .caixa {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font: normal 10pt 'Arial';
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="caixa">Caixa A</div>
+        <div class="caixa">Caixa B</div>
+        <div class="caixa">Caixa C</div>
+    </div>
+</body>
+</html>

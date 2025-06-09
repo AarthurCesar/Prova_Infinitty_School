@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3 caixa que muda de cor</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #f0f0f0;
+      transition: background 0.8s;
+      font-family: sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      gap: 20px;
+    }
+
+    .caixa {
+      width: 100px;
+      height: 100px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.5s;
+      user-select: none;
+    }
+
+   
+    #modal-fundo {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+    }
+    #modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      max-width: 300px;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+      text-align: center;
+    }
+    #modal h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: #333;
+    }
+    #modal p {
+      margin: 0 0 20px 0;
+      font-size: 10px;
+      color: #555;
+    }
+    #modal button {
+      background: #ff7b00;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    #modal button:hover {
+      background: #06b300;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="caixa" id="caixa1">Caixa 1</div>
+    <div class="caixa" id="caixa2">Caixa 2</div>
+    <div class="caixa" id="caixa3">Caixa 3</div>
+  </div>
+
+
+  <div id="modal-fundo"></div>
+  <div id="modal">
+    <h2>Dev Arthur diz:</h2>
+    <p id="modal-texto"></p>
+    <button onclick="fecharAlerta()">Fechar</button>
+  </div>
+
+  <script>
+
+    function mostrarAlertaCustom(texto) {
+      document.getElementById('modal-texto').textContent = texto;
+      document.getElementById('modal-fundo').style.display = 'block';
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    function fecharAlerta() {
+      document.getElementById('modal-fundo').style.display = 'none';
+      document.getElementById('modal').style.display = 'none';
+    }
+
+
+    window.onload = () => {
+      mostrarAlertaCustom("Clique nas caixas");
+    };
+
+    const coresPadrao = ['red', 'blue', 'yellow'];
+    const caixas = [
+      document.getElementById('caixa1'),
+      document.getElementById('caixa2'),
+      document.getElementById('caixa3')
+    ];
+
+    function corAleatoriaExcluindo(excluir) {
+      const letras = '0123456789ABCDEF';
+      let cor;
+      do {
+        cor = '#';
+        for (let i = 0; i < 6; i++) {
+          cor += letras[Math.floor(Math.random() * 16)];
+        }
+      } while (excluir.includes(cor.toLowerCase()));
+      return cor;
+    }
+
+    const estadoCaixas = caixas.map(() => ({
+      travada: false,
+      ciclo: [], 
+      indiceCiclo: 0,
+      corAtual: null,
+    }));
+
+    let cicloPadrao = [...coresPadrao];
+    let caixaHover = null;
+
+    setInterval(() => {
+      caixas.forEach((caixa, i) => {
+        if (!estadoCaixas[i].travada) {
+          const cor = cicloPadrao[i];
+          caixa.style.backgroundColor = cor;
+          estadoCaixas[i].corAtual = cor;
+        } else {
+          const ciclo = estadoCaixas[i].ciclo;
+          const idx = estadoCaixas[i].indiceCiclo;
+          const cor = ciclo[idx];
+          caixa.style.backgroundColor = cor;
+          estadoCaixas[i].corAtual = cor;
+          estadoCaixas[i].indiceCiclo = (idx + 1) % ciclo.length;
+        }
+      });
+
+      const naoTravadas = estadoCaixas.map((e, i) => e.travada ? null : cicloPadrao[i]).filter(c => c !== null);
+      if (naoTravadas.length > 0) {
+        naoTravadas.unshift(naoTravadas.pop());
+      }
+     
+      let pos = 0;
+      for(let i = 0; i < estadoCaixas.length; i++) {
+        if (!estadoCaixas[i].travada) {
+          cicloPadrao[i] = naoTravadas[pos];
+          pos++;
+        }
+      }
+
+      if (caixaHover) {
+        const i = caixas.indexOf(caixaHover);
+        if (i !== -1) {
+          document.body.style.background = `linear-gradient(190deg, ${estadoCaixas[i].corAtual}, transparent)`;
+        }
+      }
+    }, 1000);
+
+    caixas.forEach((caixa, i) => {
+      caixa.addEventListener('mouseenter', () => {
+        caixaHover = caixa;
+        document.body.style.background = `linear-gradient(190deg, ${estadoCaixas[i].corAtual}, transparent)`;
+      });
+      caixa.addEventListener('mouseleave', () => {
+        caixaHover = null;
+        document.body.style.background = '#f0f0f0';
+      });
+
+      caixa.addEventListener('click', () => {
+        if (!estadoCaixas[i].travada) {
+          const coresExcluindoPadrao = [];
+          while (coresExcluindoPadrao.length < 3) {
+            const novaCor = corAleatoriaExcluindo(coresPadrao);
+            if (!coresExcluindoPadrao.includes(novaCor.toLowerCase())) {
+              coresExcluindoPadrao.push(novaCor.toLowerCase());
+            }
+          }
+          estadoCaixas[i].travada = true;
+          estadoCaixas[i].ciclo = coresExcluindoPadrao;
+          estadoCaixas[i].indiceCiclo = 0;
+
+          estadoCaixas[i].corAtual = coresExcluindoPadrao[0];
+          caixas[i].style.backgroundColor = coresExcluindoPadrao[0];
+
+          if (caixaHover === caixa) {
+            document.body.style.background = `linear-gradient(360deg, ${coresExcluindoPadrao[0]}, transparent)`;
+          }
+
+          
+        
+        } else {
+          estadoCaixas[i].travada = false;
+          estadoCaixas[i].ciclo = [];
+          estadoCaixas[i].indiceCiclo = 0;
+
+          
+          
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
