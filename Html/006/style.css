@@ -1,0 +1,122 @@
+/* Estilos para o body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+
+/* Estilos para o container do formulário */
+.container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 25px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border-radius: 12px;
+    border: 1px solid black;
+    height: 450px;
+}
+
+/* Estilos para os inputs dentro do container */
+.container input {
+    width: 100%;
+    padding: 1vh;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-size: 1rem;
+}
+
+/* Estilos para o input quando ele recebe o foco */
+.container input:focus {
+    background-color: rgba(128, 128, 128, 0.15);
+    border-color: #00eeff;
+    outline: none;
+}
+
+/* Estilos para o texto com o ícone de login */
+.login p::before {
+    content: "👤 ";
+    margin-right: 8px;
+}
+
+/* Estilos para o texto com o ícone de senha */
+.password p::before {
+    content: "🔒 ";
+    margin-right: 8px;
+}
+
+/* Estilos para o container dos botões */
+.button {
+    display: flex;
+    flex-direction: column;
+    padding: 1vh 0;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Estilos para os botões dentro do container */
+.button > button {
+    width: 50%;
+    padding: 10px;
+    border-radius: 100px;
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Estilos para o efeito de hover nos botões */
+.button > button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(0, 238, 255, 0.3);
+    border-radius: 100px;
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+/* Estilos para o botão quando ele for hover (passar o mouse por cima) */
+.button > button:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para o botão durante o hover */
+.button > button:hover::after {
+    width: 100%;
+}
+
+/* Responsividade para telas pequenas (mobile) */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+        border: none;
+    }
+
+    .button > button {
+        width: 100%;
+    }
+}
+
+.loginpass input:focus{
+    transition: ease-in 0.4s;
+    font-size: 15pt;
+
+}

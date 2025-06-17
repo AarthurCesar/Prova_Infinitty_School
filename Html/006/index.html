@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[H&CIA-A06]</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form>
+  <div class="container">
+    <div class="loginpass">
+      <div class="login">
+        <p>Nome de Usuário</p>
+        <input type="text" placeholder="Digite nome de Usuário..." name="usuario" id="usu">
+      </div>
+      <div class="password">
+        <p>Senha</p>
+        <input type="password" placeholder="Digite sua senha..." name="senha">
+      </div>
+    </div>
+
+    <div class="button">
+      <button type="submit" onclick="enviar()">Enviar</button>
+      <button type="reset">🗑️Limpar</button>
+    </div>
+  </div>
+</form>
+
+<script>
+    function enviar() {
+    event.preventDefault();
+
+    const usuario = document.querySelector('#usu').value
+
+    if (usuario.trim() === '') {
+        alert('Por favor, preencha o campo Nome de Usuário.')
+        return 
+    }
+
+    alert(`Bem vindo, ${usuario}`);
+}
+
+</script>
+
+
+
+</body>
+</html>
