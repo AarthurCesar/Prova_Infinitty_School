@@ -1,0 +1,41 @@
+    /* Variáveis*/
+    :root {
+      --font-size-heading: 24px;
+      --font-size-paragraph: 16px;
+      --spacing: 16px;
+    }
+
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: var(--spacing);
+    }
+
+    h1, h2 {
+      font-size: var(--font-size-heading);
+      margin-bottom: var(--spacing);
+    }
+
+    p {
+      font-size: var(--font-size-paragraph);
+      margin-bottom: var(--spacing);
+    }
+
+    
+    /* Responsividade - Tela média */
+    @media (min-width: 600px) {
+      :root {
+        --font-size-heading: 28px;
+        --font-size-paragraph: 18px;
+        --spacing: 24px;
+      }
+    }
+
+    /* Responsividade - Tela grande */
+    @media (min-width: 1024px) {
+      :root {
+        --font-size-heading: 32px;
+        --font-size-paragraph: 20px;
+        --spacing: 32px;
+      }
+    }
