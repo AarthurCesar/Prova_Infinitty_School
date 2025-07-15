@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>CYBER CALC 3000</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
+
+    :root {
+      --rosa-neon: #ff2a6d;
+      --azul-neon: #05d9e8;
+      --roxo-neon: #d300c5;
+      --fundo-escuro: #0d0221;
+      --fundo-mais-escuro: #05010e;
+    }
+
+    body {
+      background-color: var(--fundo-escuro);
+      background-image:
+        linear-gradient(45deg, var(--fundo-mais-escuro) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--fundo-mais-escuro) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--fundo-mais-escuro) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--fundo-mais-escuro) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--azul-neon);
+      text-shadow: 0 0 10px var(--azul-neon), 0 0 20px var(--azul-neon);
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      position: relative;
+      animation: piscar 1.5s infinite alternate;
+    }
+
+    @keyframes piscar {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 10px var(--azul-neon), 0 0 20px var(--azul-neon);
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+    #resultados {
+      background-color: rgba(13, 2, 33, 0.8);
+      border: 2px solid var(--rosa-neon);
+      border-radius: 5px;
+      box-shadow: 0 0 15px var(--rosa-neon), inset 0 0 10px var(--rosa-neon);
+      padding: 2rem;
+      width: 80%;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #resultados::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--azul-neon), var(--rosa-neon), var(--roxo-neon), var(--azul-neon));
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      animation: brilho 20s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes brilho {
+      0% { background-position: 0 0; }
+      50% { background-position: 400% 0; }
+      100% { background-position: 0 0; }
+    }
+
+    #resultados p {
+      margin: 1rem 0;
+      padding: 0.8rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      border-left: 3px solid var(--azul-neon);
+      background-color: rgba(5, 217, 232, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    #resultados p:hover {
+      background-color: rgba(5, 217, 232, 0.3);
+      transform: translateX(5px);
+    }
+
+    .linhas-scan {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.06) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      animation: scanline 8s linear infinite;
+    }
+
+    @keyframes scanline {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100%; }
+    }
+
+    .canto {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--azul-neon);
+      border-style: solid;
+      border-width: 0;
+    }
+
+    .canto-superior-esquerdo {
+      top: 0;
+      left: 0;
+      border-top-width: 3px;
+      border-left-width: 3px;
+    }
+
+    .canto-superior-direito {
+      top: 0;
+      right: 0;
+      border-top-width: 3px;
+      border-right-width: 3px;
+    }
+
+    .canto-inferior-esquerdo {
+      bottom: 0;
+      left: 0;
+      border-bottom-width: 3px;
+      border-left-width: 3px;
+    }
+
+    .canto-inferior-direito {
+      bottom: 0;
+      right: 0;
+      border-bottom-width: 3px;
+      border-right-width: 3px;
+    }
+
+    .falha {
+      position: relative;
+    }
+
+    .falha::before, .falha::after {
+      content: attr(data-texto);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+
+    .falha::before {
+      color: var(--rosa-neon);
+      z-index: -1;
+      animation: efeito-falha 3s infinite;
+    }
+
+    .falha::after {
+      color: var(--azul-neon);
+      z-index: -2;
+      animation: efeito-falha 2s infinite reverse;
+    }
+
+    @keyframes efeito-falha {
+      0% { transform: translate(0); }
+      20% { transform: translate(-3px, 3px); }
+      40% { transform: translate(-3px, -3px); }
+      60% { transform: translate(3px, 3px); }
+      80% { transform: translate(3px, -3px); }
+      100% { transform: translate(0); }
+    }
+
+    .texto-neon {
+      color: var(--rosa-neon);
+      text-shadow: 0 0 5px var(--rosa-neon), 0 0 10px var(--rosa-neon);
+    }
+
+    .texto-neon.azul {
+      color: var(--azul-neon);
+      text-shadow: 0 0 5px var(--azul-neon), 0 0 10px var(--azul-neon);
+    }
+
+    .texto-neon.roxo {
+      color: var(--roxo-neon);
+      text-shadow: 0 0 5px var(--roxo-neon), 0 0 10px var(--roxo-neon);
+    }
+
+    .pulso {
+      animation: pulsar 2s infinite;
+    }
+
+    @keyframes pulsar {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="falha" data-texto="CYBER CALC 3000">CYBER CALC 3000</h1>
+
+  <div id="resultados">
+    <div class="canto canto-superior-esquerdo"></div>
+    <div class="canto canto-superior-direito"></div>
+    <div class="canto canto-inferior-esquerdo"></div>
+    <div class="canto canto-inferior-direito"></div>
+    <div class="linhas-scan"></div>
+  </div>
+
+<script>
+  const divResultados = document.getElementById("resultados");
+
+  // Efeito de digitação
+  function maquinaEscrever(texto, elemento, velocidade, callback) {
+    let i = 0;
+    elemento.innerHTML = '';
+    function escrever() {
+      if (i < texto.length) {
+        elemento.innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(escrever, velocidade);
+      } else if (callback) {
+        callback();
+      }
+    }
+    escrever();
+  }
+
+  // Caixa de entrada
+  function solicitarEntrada(mensagem) {
+    const caixa = document.createElement('div');
+    caixa.style.position = 'fixed';
+    caixa.style.top = '50%';
+    caixa.style.left = '50%';
+    caixa.style.transform = 'translate(-50%, -50%)';
+    caixa.style.backgroundColor = 'rgba(13, 2, 33, 0.9)';
+    caixa.style.border = '2px solid var(--azul-neon)';
+    caixa.style.boxShadow = '0 0 15px var(--azul-neon)';
+    caixa.style.padding = '2rem';
+    caixa.style.zIndex = '1000';
+    caixa.style.width = '300px';
+    caixa.style.textAlign = 'center';
+
+    const texto = document.createElement('p');
+    texto.textContent = mensagem;
+    texto.style.color = 'var(--rosa-neon)';
+    texto.style.fontSize = '1.2rem';
+    texto.style.marginBottom = '1rem';
+
+    const entrada = document.createElement('input');
+    entrada.type = 'text';
+    entrada.style.backgroundColor = 'rgba(5, 217, 232, 0.1)';
+    entrada.style.border = '1px solid var(--azul-neon)';
+    entrada.style.color = 'white';
+    entrada.style.padding = '0.5rem';
+    entrada.style.width = '80%';
+    entrada.style.marginBottom = '1rem';
+    entrada.style.outline = 'none';
+
+    const botao = document.createElement('button');
+    botao.textContent = 'ENVIAR';
+    botao.style.backgroundColor = 'transparent';
+    botao.style.color = 'var(--azul-neon)';
+    botao.style.border = '1px solid var(--azul-neon)';
+    botao.style.padding = '0.5rem 1rem';
+    botao.style.cursor = 'pointer';
+    botao.style.transition = 'all 0.3s';
+
+    botao.addEventListener('mouseenter', () => {
+      botao.style.backgroundColor = 'rgba(5, 217, 232, 0.2)';
+      botao.style.boxShadow = '0 0 10px var(--azul-neon)';
+    });
+
+    botao.addEventListener('mouseleave', () => {
+      botao.style.backgroundColor = 'transparent';
+      botao.style.boxShadow = 'none';
+    });
+
+    caixa.appendChild(texto);
+    caixa.appendChild(entrada);
+    caixa.appendChild(botao);
+    document.body.appendChild(caixa);
+
+    return new Promise(resolve => {
+      botao.addEventListener('click', () => {
+        document.body.removeChild(caixa);
+        resolve(entrada.value);
+      });
+
+      entrada.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          document.body.removeChild(caixa);
+          resolve(entrada.value);
+        }
+      });
+    });
+  }
+
+  // Função principal
+  async function iniciarCalculadora() {
+    maquinaEscrever("> INICIANDO SISTEMA...", divResultados, 50, async () => {
+      await new Promise(r => setTimeout(r, 500));
+      maquinaEscrever("> CARREGANDO MÓDULOS MATEMÁTICOS...", divResultados, 30, async () => {
+        await new Promise(r => setTimeout(r, 500));
+        maquinaEscrever("> PRONTO PARA OPERAÇÕES", divResultados, 30, async () => {
+          await new Promise(r => setTimeout(r, 1000));
+          divResultados.innerHTML = '';
+
+          const numero1 = parseFloat(await solicitarEntrada("DIGITE O PRIMEIRO NÚMERO:"));
+          const numero2 = parseFloat(await solicitarEntrada("DIGITE O SEGUNDO NÚMERO:"));
+
+          if (isNaN(numero1) || isNaN(numero2)) {
+            maquinaEscrever("> ERRO: ENTRADAS INVÁLIDAS", divResultados, 30);
+            return;
+          }
+
+          let saida = '';
+          let resultado;
+
+          resultado = numero1 + numero2;
+          saida += `<p class="texto-neon">Adição: ${numero1} + ${numero2} = <span class="texto-neon azul pulso">${resultado}</span></p>`;
+
+          resultado = numero1 - numero2;
+          saida += `<p class="texto-neon">Subtração: ${numero1} - ${numero2} = <span class="texto-neon roxo pulso">${resultado}</span></p>`;
+
+          resultado = numero1 * numero2;
+          saida += `<p class="texto-neon">Multiplicação: ${numero1} * ${numero2} = <span class="texto-neon azul pulso">${resultado}</span></p>`;
+
+          resultado = numero1 / numero2;
+          saida += `<p class="texto-neon">Divisão: ${numero1} / ${numero2} = <span class="texto-neon roxo pulso">${resultado}</span></p>`;
+
+          resultado = numero1 % numero2;
+          saida += `<p class="texto-neon">Resto da divisão: ${numero1} % ${numero2} = <span class="texto-neon azul pulso">${resultado}</span></p>`;
+
+          // Mostrar resultado visualmente + console
+          maquinaEscrever("> PROCESSANDO OPERAÇÕES...", divResultados, 20, () => {
+            setTimeout(() => {
+              divResultados.innerHTML = saida;
+
+              // Também imprimir no console
+              const textoConsole =
+                `Adição: ${numero1} + ${numero2} = ${numero1 + numero2}\n` +
+                `Subtração: ${numero1} - ${numero2} = ${numero1 - numero2}\n` +
+                `Multiplicação: ${numero1} * ${numero2} = ${numero1 * numero2}\n` +
+                `Divisão: ${numero1} / ${numero2} = ${numero1 / numero2}\n` +
+                `Resto da divisão: ${numero1} % ${numero2} = ${numero1 % numero2}\n`;
+
+              console.log(textoConsole);
+            }, 500);
+          });
+        });
+      });
+    });
+  }
+
+  iniciarCalculadora();
+</script>
+
+</body>
+</html>
