@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Classificação de Usuário</title>
+</head>
+<body>
+  <script>
+    
+    let idade = Number(prompt("Informe sua idade:"));
+    let status = prompt("Você está registrado? (responda 'registrado' ou 'não registrado')").toLowerCase();
+
+
+    let maiorDeIdade = idade >= 18 ? true : false;
+
+    switch (status) {
+      case "registrado":
+        alert("Bem-vindo! Seu status é registrado.");
+        break;
+      case "não registrado":
+        alert("Por favor, complete seu registro.");
+        break;
+      default:
+        alert("Status desconhecido.");
+        break;
+    }
+
+       if (maiorDeIdade && status === "registrado") {
+      alert("Acesso completo concedido.");
+    } else if (!maiorDeIdade || status !== "registrado") {
+      alert("Acesso limitado.");
+    }
+  </script>
+</body>
+</html>
