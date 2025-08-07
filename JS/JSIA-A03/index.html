@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A03 - Nomes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    h1 {
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .box {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      padding: 20px 30px;
+      max-width: 500px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .box h2 {
+      margin-top: 0;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #00c6ff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0079a1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lista de Nomes</h1>
+  <div class="box" id="resultado">
+   
+  </div>
+
+  <button onclick="window.location.reload()">Reiniciar</button>
+
+  <script>
+    const nomes = [];
+
+   
+    while (true) {
+      const nome = prompt('Qual seu nome? (Digite "sair" para encerrar.)');
+      
+      if (nome === null || nome.toLowerCase() === 'sair') {
+        break;
+      }
+
+      if (nome.trim() !== "") {
+        nomes.push(nome.trim());
+      }
+    }
+
+    
+    for (let i = 0; i < nomes.length; i++) {
+      console.log(`${i + 1}: ${nomes[i]}`);
+    }
+
+    
+    for (const nome of nomes) {
+      console.log(`Bem-vindo(a), ${nome}!`);
+    }
+
+    
+    const resultadoDiv = document.getElementById('resultado');
+
+    if (nomes.length === 0) {
+      resultadoDiv.innerHTML = "<p>Nenhum nome foi inserido.</p>";
+    } else {
+      let lista = "<h2>Nomes inseridos:</h2><ul>";
+      nomes.forEach((nome, index) => {
+        lista += `<li>${index + 1}: ${nome}</li>`;
+      });
+      lista += "</ul>";
+
+      let boasVindas = "<h2>Mensagens:</h2><ul>";
+      for (const nome of nomes) {
+        boasVindas += `<li>Bem-vindo(a), ${nome}!</li>`;
+      }
+      boasVindas += "</ul>";
+
+      resultadoDiv.innerHTML = lista + boasVindas;
+    }
+  </script>
+
+</body>
+</html>
