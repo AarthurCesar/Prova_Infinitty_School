@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciador de Tarefas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .input-group {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px 0 0 8px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background: #6EABA7;
+      color: white;
+      cursor: pointer;
+      border-radius: 0 8px 8px 0;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #56918f;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    li.concluida {
+      text-decoration: line-through;
+      color: gray;
+      background: #e8f5e9;
+    }
+
+    .acoes button {
+      margin-left: 5px;
+      border-radius: 6px;
+    }
+
+    .acoes .remover {
+      background: #e57373;
+    }
+
+    .acoes .remover:hover {
+      background: #d32f2f;
+    }
+
+    .acoes .concluir {
+      background: #81c784;
+    }
+
+    .acoes .concluir:hover {
+      background: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Lista de Tarefas - Infinity </h1>
+    <div class="input-group">
+      <input type="text" id="novaTarefa" placeholder="Digite uma tarefa...">
+      <button onclick="adicionarTarefa()">Adicionar</button>
+    </div>
+    <ul id="listaTarefas"></ul>
+  </div>
+
+  <script>
+    let tarefas = [];
+
+    function renderizarLista() {
+      const lista = document.getElementById("listaTarefas");
+      lista.innerHTML = "";
+
+      tarefas.forEach((tarefa, index) => {
+        const li = document.createElement("li");
+        li.textContent = tarefa;
+
+        if (tarefa.startsWith("✅")) {
+          li.classList.add("concluida");
+        }
+
+        const divAcoes = document.createElement("div");
+        divAcoes.classList.add("acoes");
+
+        const btnConcluir = document.createElement("button");
+        btnConcluir.textContent = "Concluir";
+        btnConcluir.classList.add("concluir");
+        btnConcluir.onclick = () => concluirTarefa(index);
+
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "Remover";
+        btnRemover.classList.add("remover");
+        btnRemover.onclick = () => removerTarefa(index);
+
+        divAcoes.appendChild(btnConcluir);
+        divAcoes.appendChild(btnRemover);
+
+        li.appendChild(divAcoes);
+        lista.appendChild(li);
+      });
+    }
+
+    function adicionarTarefa() {
+      const input = document.getElementById("novaTarefa");
+      const tarefa = input.value.trim();
+
+      if (tarefa) {
+        tarefas.push(tarefa);
+        input.value = "";
+        renderizarLista();
+      }
+    }
+
+    function removerTarefa(indice) {
+      tarefas.splice(indice, 1);
+      renderizarLista();
+    }
+
+    function concluirTarefa(indice) {
+      if (!tarefas[indice].startsWith("✅")) {
+        tarefas[indice] = "✅ " + tarefas[indice];
+      }
+      renderizarLista();
+    }
+  </script>
+</body>
+</html>
