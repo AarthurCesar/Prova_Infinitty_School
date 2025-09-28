@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciador de Tarefas</title>
+</head>
+<body>
+  <h1>Abra o console do navegador (F12) para ver o programa rodando</h1>
+
+  <script> 
+    let tarefas = [];
+    
+    let adicionarTarefa = function (tarefa) {
+        tarefas.push({ nome: tarefa, concluida: false });
+        console.log(`Tarefa adicionada: "${tarefa}"`);
+    };
+
+    let listarTarefas = () => {
+        console.log("\n--- Lista de Tarefas ---");
+        if (tarefas.length === 0) {
+            console.log("Nenhuma tarefa cadastrada.");
+        } else {
+            tarefas.forEach((tarefa, i) => {
+                console.log(`${i} - ${tarefa.nome} [${tarefa.concluida ? "✔ concluída" : "pendente"}]`);
+            });
+        }
+        console.log("-------------------------\n");
+    };
+    function gerenciarTarefa(indice, callback) {
+        if (indice >= 0 && indice < tarefas.length) {
+            callback(indice);
+        } else {
+            console.log("Índice inválido.");
+        }
+    }
+       let removerTarefa = (indice) => {
+        console.log(`Tarefa removida: "${tarefas[indice].nome}"`);
+        tarefas.splice(indice, 1);
+    };
+
+    let atualizarTarefa = (indice) => {
+        let novaTarefa = prompt("Digite a nova descrição da tarefa:");
+        console.log(`Tarefa atualizada: "${tarefas[indice].nome}" -> "${novaTarefa}"`);
+        tarefas[indice].nome = novaTarefa;
+    };
+
+    let concluirTarefa = (indice) => {
+        tarefas[indice].concluida = true;
+        console.log(`Tarefa concluída: "${tarefas[indice].nome}"`);
+    };
+
+
+    let opcao;
+    do {
+        opcao = prompt(
+            "Escolha uma opção:\n1 - Adicionar tarefa\n2 - Listar tarefas\n3 - Remover tarefa\n4 - Atualizar tarefa\n5 - Concluir tarefa\n0 - Sair"
+        );
+
+        switch (opcao) {
+            case "1":
+                let nova = prompt("Digite a tarefa:");
+                adicionarTarefa(nova);
+                alert('Para visuzalizar aperte "0", depois  inspecionar a página')
+                break;
+            case "2":
+                listarTarefas();
+                break;
+            case "3":
+                listarTarefas();
+                let indiceRemover = parseInt(prompt("Digite o índice da tarefa para remover:"));
+                gerenciarTarefa(indiceRemover, removerTarefa);
+                alert('Para visuzalizar aperte "0", depois  inspecionar a página')
+
+                break;
+            case "4":
+                listarTarefas();
+                let indiceAtualizar = parseInt(prompt("Digite o índice da tarefa para atualizar:"));
+                gerenciarTarefa(indiceAtualizar, atualizarTarefa);
+                alert('Para visuzalizar aperte "0", depois  inspecionar a página')
+
+                break;
+            case "5":
+                listarTarefas();
+                let indiceConcluir = parseInt(prompt("Digite o índice da tarefa para concluir:"));
+                gerenciarTarefa(indiceConcluir, concluirTarefa);
+                alert('Para visuzalizar aperte "0", depois  inspecionar a página')
+                break;
+            case "0":
+                console.log("Saindo do programa...");
+                break;
+            default:                
+                alert("Opção inválida.");
+                console.log("Opção inválida.");
+        }
+    } while (opcao !== "0");
+  </script>
+</body>
+</html>
